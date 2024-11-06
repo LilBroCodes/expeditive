@@ -79,7 +79,7 @@ public class BambooFlute extends Item {
         return TypedActionResult.consume(itemStack);
     }
 
-//    Commented out because it doesn't work anyway, may re-implement at some point since it has not mechanical purpose anyway.
+//    Commented out because it doesn't work anyway, may re-implement at some point since it has no mechanical purpose anyway.
 //    @Override
 //    public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
 //        if (!user.getWorld().isClient) {
