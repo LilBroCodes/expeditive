@@ -21,12 +21,14 @@ public class Expeditive implements ModInitializer {
     @Override
     public void onInitialize() {
         ExpeditiveItems.initialize();
+        ExpeditiveCommands.initialize();
 
         Registry.register(Registries.ITEM_GROUP, EXPEDITIVE_ITEM_GROUP_KEY, EXPEDITIVE_ITEM_GROUP);
 
         ItemGroupEvents.modifyEntriesEvent(EXPEDITIVE_ITEM_GROUP_KEY).register(content -> {
             content.add(ExpeditiveItems.STRIDER_BOOTS);
             content.add(ExpeditiveItems.STRIDERS_FOOT);
+            content.add(ExpeditiveItems.BAMBOO_FLUTE);
         });
     }
 }

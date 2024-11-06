@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bamboo"
+    },
+    "S": {
+      "item": "minecraft:string"
+    }
+  },
+  "result": {
+    "item": "expeditive:bamboo_flute",
+    "count": 1,
+    "nbt": "{BambooFluteColor:\"default\"}"
+  },
+  "show_notification": false
+}
