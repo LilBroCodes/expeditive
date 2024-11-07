@@ -1,6 +1,7 @@
 {
-  "item.expeditive.strider_boots": "Strider Boots",
-  "item.expeditive.striders_foot": "Strider's Foot",
+  "item.expeditive.strider_boots": "Strider boots",
+  "item.expeditive.striders_foot": "Strider's foot",
+  "item.expeditive.bamboo_flute": "Bamboo flute",
   "itemTooltip.expeditive.strider_boots_l0": "Lets the user walk on",
   "itemTooltip.expeditive.strider_boots_l1": "lava and magma safely",
   "itemGroup.expeditive": "Expeditive"
