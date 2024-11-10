@@ -1,0 +1,27 @@
+{
+    "criteria": {
+        "requirement": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "minecraft:bamboo"
+                        ]
+                    },
+                    {
+                        "items": [
+                            "minecraft:brown_dye"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "rewards": {
+        "recipes": [
+            "expeditive:bamboo_flute_brown"
+        ]
+    },
+    "parent": "minecraft:recipes/root"
+}

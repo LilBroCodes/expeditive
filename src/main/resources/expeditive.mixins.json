@@ -4,10 +4,13 @@
   "package": "org.lilbrocodes.expeditive.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "advancement.PlayerEntityMixin",
     "striderboots.LivingEntityMixin",
-    "striderboots.PlayerEntityMixin"
+    "striderboots.PlayerEntityMixin",
+    "wolfcontrol.WolfEntityMixin"
   ],
   "client": [
+    "render.InGameHudMixin",
     "striderboots.client.ClientPlayerEntityMixin"
   ],
   "injectors": {

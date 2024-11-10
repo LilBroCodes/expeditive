@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "expeditive:bamboo_flute"
+    },
+    "title": {
+      "translate": "advancement.expeditive.beautiful_melody.title"
+    },
+    "description": {
+      "translate": "advancement.expeditive.beautiful_melody.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "expeditive:root",
+  "criteria": {
+    "manual_trigger": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "sends_telemetry_event": true
+}

@@ -14,8 +14,7 @@
   },
   "result": {
     "item": "expeditive:bamboo_flute",
-    "count": 1,
-    "nbt": "{BambooFluteColor:\"default\"}"
+    "count": 1
   },
   "show_notification": false
 }
