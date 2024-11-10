@@ -1,9 +1,6 @@
 name: Build and Release Mod
 
-on:
-  push:
-    tags:
-      - 'v*'  # Trigger this workflow on new tags starting with "v"
+on: push
 
 jobs:
   build:
