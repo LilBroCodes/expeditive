@@ -31,7 +31,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: "v${{ env.MOD_VERSION }}"
-          release_name: "Mod v${{ env.MOD_VERSION }}"
+          release_name: "Expeditive v${{ env.MOD_VERSION }}"
           draft: false
           prerelease: false
 
@@ -39,6 +39,6 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/libs/YOUR_MOD_FILE_NAME-${{ env.MOD_VERSION }}.jar
-          asset_name: YOUR_MOD_FILE_NAME-${{ env.MOD_VERSION }}.jar
+          asset_path: build/libs/Expeditive-${{ env.MOD_VERSION }}.jar
+          asset_name: Expeditive-${{ env.MOD_VERSION }}.jar
           asset_content_type: application/java-archive
