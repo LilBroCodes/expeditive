@@ -3,15 +3,23 @@ package org.lilbrocodes.expeditive;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.lilbrocodes.expeditive.common.Misc;
+import org.lilbrocodes.expeditive.common.TargetingPacket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
 
 public class Expeditive implements ModInitializer {
     public static final RegistryKey<ItemGroup> EXPEDITIVE_ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), new Identifier("expeditive", "item_group"));
@@ -20,6 +28,8 @@ public class Expeditive implements ModInitializer {
             .displayName(Text.translatable("itemGroup.expeditive"))
             .build();
     public static final Logger logger = LoggerFactory.getLogger("Expeditive");
+    public static final String MOD_ID = "expeditive";
+    public static HashMap<PlayerEntity, Entity> TARGETS = new HashMap<>();
 
     @Override
     public void onInitialize() {
@@ -48,5 +58,14 @@ public class Expeditive implements ModInitializer {
             content.add(ExpeditiveItems.BAMBOO_FLUTE_WHITE);
             content.add(ExpeditiveItems.BAMBOO_FLUTE_YELLOW);
         });
+
+        if (Misc.isServer()) {
+            ServerPlayNetworking.registerGlobalReceiver(TargetingPacket.ID, (server, player, handler, buf, responseSender) -> {
+                TargetingPacket packet = TargetingPacket.read(buf);
+
+                Entity entity = player.getWorld().getEntityById(packet.targetingEntityId);
+                TARGETS.put(player, entity);
+            });
+        }
     }
 }

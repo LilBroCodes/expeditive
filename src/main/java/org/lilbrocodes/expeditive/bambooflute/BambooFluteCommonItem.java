@@ -20,6 +20,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import org.lilbrocodes.expeditive.common.ClientTargeting;
+import org.lilbrocodes.expeditive.common.Misc;
 import org.lilbrocodes.expeditive.common.Targeting;
 import org.lilbrocodes.expeditive.accessor.WolfEntityMethodAccessor;
 
@@ -112,10 +114,10 @@ public class BambooFluteCommonItem extends Item {
         }
         if (segment == 1) {
             for (WolfEntity wolf : wolvesToCommand) {
-                if (!wolf.isLeashed()) sendWolfTo(wolf, player, 1.0F);
+                if (!wolf.isLeashed()) sendWolfTo(wolf, player, 1.0F, false);
             }
         } else {
-            Entity target = Targeting.getCurrentlyTargeting(player, true, true);
+            Entity target = Misc.isClient() ? ClientTargeting.getCurrentlyTargeting(player, true, true) : Targeting.getCurrentlyTargeting(player);
             if (target == null) return;
             double distance = distanceTo2D(player, target);
             if (!(target instanceof LivingEntity)) {
@@ -124,7 +126,7 @@ public class BambooFluteCommonItem extends Item {
                         if (wolf instanceof WolfEntityMethodAccessor accessor) {
                             accessor.expeditive$setTargetIsBoat(true);
                             accessor.expeditive$setBoatTarget((BoatEntity) target);
-                            sendWolfTo(wolf, target, 1.0F);
+                            sendWolfTo(wolf, target, 1.0F, false);
                         }
                     }
                 } else if (target instanceof ArmorStandEntity) {
@@ -132,7 +134,7 @@ public class BambooFluteCommonItem extends Item {
                         if (wolf instanceof WolfEntityMethodAccessor accessor) {
                             accessor.expeditive$setTargetIsArmorStand(true);
                             accessor.expeditive$setArmorStandTarget((ArmorStandEntity) target);
-                            sendWolfTo(wolf, target, 1.0F);
+                            sendWolfTo(wolf, target, 1.0F, false);
                         }
                     }
                 }
@@ -143,7 +145,7 @@ public class BambooFluteCommonItem extends Item {
                 if (target instanceof WolfEntity && ((WolfEntity) target).getOwnerUuid() == player.getUuid()) return;
                 for (WolfEntity wolf : wolvesToCommand) {
                     if (!wolf.isSitting() && !wolf.isLeashed()) {
-                        sendWolfTo(wolf, target, 1.0F);
+                        sendWolfTo(wolf, target, 1.0F, true);
                     }
                 }
             }
@@ -151,7 +153,7 @@ public class BambooFluteCommonItem extends Item {
     }
 
     // Send to entity
-    public void sendWolfTo(WolfEntity wolf, Entity target, float speed) {
+    public void sendWolfTo(WolfEntity wolf, Entity target, float speed, boolean attack) {
         wolf.getNavigation().stop();
         wolf.setTarget(null);
         wolf.setAngerTime(0);
@@ -161,7 +163,14 @@ public class BambooFluteCommonItem extends Item {
             wolf.setInSittingPose(false);
         }
 
-        wolf.getNavigation().startMovingTo(target, speed);
+        if (!attack) {
+            wolf.getNavigation().startMovingTo(target, speed);
+        } else {
+            wolf.setTarget((LivingEntity) target);
+            wolf.setAngryAt(target.getUuid());
+            wolf.setAngerTime(-1);
+            wolf.setAttacking(true);
+        }
     }
 
     // Send to block

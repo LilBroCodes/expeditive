@@ -1,5 +1,7 @@
 package org.lilbrocodes.expeditive.common;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementProgress;
 import net.minecraft.entity.Entity;
@@ -51,5 +53,13 @@ public class Misc {
             if (timesUsed < 1) return false;
         }
         return true;
+    }
+
+    public static boolean isClient() {
+        return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
+    }
+
+    public static boolean isServer() {
+        return FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER;
     }
 }

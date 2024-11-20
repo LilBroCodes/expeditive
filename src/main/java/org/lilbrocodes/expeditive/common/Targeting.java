@@ -9,30 +9,16 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
+import org.lilbrocodes.expeditive.Expeditive;
 
 import java.util.function.Predicate;
 
 public class Targeting {
-    public static Entity getCurrentlyTargeting(PlayerEntity player, boolean ignoreTamed, boolean ignoreNonLiving) {
-        double distanceCap = 128f;
-        Vec3d cameraPos = player.getClientCameraPosVec(1.0F);
-        Vec3d cameraRot = player.getRotationVecClient();
-        Vec3d cameraTarget = cameraPos.add(cameraRot.multiply(distanceCap));
-
-        Box box = player.getBoundingBox().stretch(cameraTarget).expand(1.0, 1.0, 1.0);
-        Predicate<Entity> predicate = entity -> isValidTarget(entity, player, ignoreTamed, ignoreNonLiving);
-
-        EntityHitResult entityHitResult = raycast(player, box, predicate);
-        if (entityHitResult != null) {
-            Entity target = entityHitResult.getEntity();
-            if (target instanceof LivingEntity || ignoreNonLiving) {
-                return target;
-            }
-        }
-        return null;
+    public static @Nullable Entity getCurrentlyTargeting(PlayerEntity player) {
+        return Expeditive.TARGETS.get(player);
     }
 
-    private static boolean isValidTarget(@Nullable Entity target, PlayerEntity player, boolean ignoreTamed, boolean ignoreNonLiving) {
+    static boolean isValidTarget(@Nullable Entity target, PlayerEntity player, boolean ignoreTamed, boolean ignoreNonLiving) {
         if (!(target instanceof LivingEntity) && !ignoreNonLiving) return false;
         if (player == null) return false;
         if (target == player) return false;
@@ -47,7 +33,7 @@ public class Targeting {
         return target.canHit();
     }
 
-    private static EntityHitResult raycast(Entity player, Box box, Predicate<Entity> predicate) {
+    static EntityHitResult raycast(Entity player, Box box, Predicate<Entity> predicate) {
         Entity target = null;
         double closestDistance = Double.MAX_VALUE;
         Vec3d playerDirection = player.getRotationVector();
