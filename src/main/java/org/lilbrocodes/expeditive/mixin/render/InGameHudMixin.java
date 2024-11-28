@@ -11,8 +11,8 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
+import org.lilbrocodes.composer.api.targeting.entity.IEntityTargetingEntity;
 import org.lilbrocodes.expeditive.bambooflute.BambooFluteCommonItem;
-import org.lilbrocodes.expeditive.common.ClientTargeting;
 import org.lilbrocodes.expeditive.common.ExpeditiveConfig;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -30,7 +30,10 @@ public class InGameHudMixin {
         PlayerEntity player = this.client.player;
         assert player != null;
         if(player.age % ExpeditiveConfig.TARGETING_PARTICLE_DIVISOR != 0) return;
-        Entity target = ClientTargeting.getCurrentlyTargeting(player, true, true);
+        Entity target = null;
+        if (player instanceof IEntityTargetingEntity targeting) {
+            target = targeting.composer$getLastEntityTarget();
+        }
         if (target == null || !target.isAlive() || target.isRemoved()) return;
         ItemStack mainHandStack = player.getMainHandStack();
         if (!(mainHandStack.getItem() instanceof BambooFluteCommonItem)) return;

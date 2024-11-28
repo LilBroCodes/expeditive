@@ -11,11 +11,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.lilbrocodes.composer.ComposerConfig;
+import org.lilbrocodes.composer.advancement.AdvancementManager;
 import org.lilbrocodes.expeditive.common.Misc;
-import org.lilbrocodes.expeditive.common.TargetingPacket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,13 +30,18 @@ public class Expeditive implements ModInitializer {
             .build();
     public static final Logger logger = LoggerFactory.getLogger("Expeditive");
     public static final String MOD_ID = "expeditive";
-    public static HashMap<PlayerEntity, Entity> TARGETS = new HashMap<>();
+
 
     @Override
     public void onInitialize() {
         ExpeditiveItems.initialize();
 
         Registry.register(Registries.ITEM_GROUP, EXPEDITIVE_ITEM_GROUP_KEY, EXPEDITIVE_ITEM_GROUP);
+
+        AdvancementManager.register(ExpeditiveAdvancements.BEAUTIFUL_MELODY, player -> Misc.getCompletedBeautifulMelody((ServerPlayerEntity) player));
+        ComposerConfig.TARGET_NON_LIVING = true;
+        ComposerConfig.TARGET_TAMED = true;
+        ComposerConfig.DECAY_ENTITY_TARGETS = true;
 
         ItemGroupEvents.modifyEntriesEvent(EXPEDITIVE_ITEM_GROUP_KEY).register(content -> {
             content.add(ExpeditiveItems.STRIDER_BOOTS);
@@ -58,14 +64,5 @@ public class Expeditive implements ModInitializer {
             content.add(ExpeditiveItems.BAMBOO_FLUTE_WHITE);
             content.add(ExpeditiveItems.BAMBOO_FLUTE_YELLOW);
         });
-
-        if (Misc.isServer()) {
-            ServerPlayNetworking.registerGlobalReceiver(TargetingPacket.ID, (server, player, handler, buf, responseSender) -> {
-                TargetingPacket packet = TargetingPacket.read(buf);
-
-                Entity entity = player.getWorld().getEntityById(packet.targetingEntityId);
-                TARGETS.put(player, entity);
-            });
-        }
     }
 }

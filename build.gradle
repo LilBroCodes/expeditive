@@ -18,7 +18,9 @@ loom {
     }
 }
 
-repositories {}
+repositories {
+    maven { url "https://dl.cloudsmith.io/public/lilbrocodes/composer/maven/" }
+}
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -26,7 +28,8 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation "org.slf4j:slf4j-simple:1.7.32"
+
+    modImplementation 'org.lilbrocodes:composer:1.0.0'
 }
 
 processResources {

@@ -20,9 +20,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
-import org.lilbrocodes.expeditive.common.ClientTargeting;
+import org.lilbrocodes.composer.api.targeting.entity.IEntityTargetingEntity;
 import org.lilbrocodes.expeditive.common.Misc;
-import org.lilbrocodes.expeditive.common.Targeting;
 import org.lilbrocodes.expeditive.accessor.WolfEntityMethodAccessor;
 
 import java.util.ArrayList;
@@ -117,7 +116,10 @@ public class BambooFluteCommonItem extends Item {
                 if (!wolf.isLeashed()) sendWolfTo(wolf, player, 1.0F, false);
             }
         } else {
-            Entity target = Misc.isClient() ? ClientTargeting.getCurrentlyTargeting(player, true, true) : Targeting.getCurrentlyTargeting(player);
+            Entity target = null;
+            if (player instanceof IEntityTargetingEntity targeting) {
+                target = targeting.composer$getLastEntityTarget();
+            }
             if (target == null) return;
             double distance = distanceTo2D(player, target);
             if (!(target instanceof LivingEntity)) {
