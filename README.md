@@ -22,7 +22,7 @@ Strider Boots are a unique item that allows players to walk on lava and magma bl
 ### 2. Bamboo Flutes
 
 **Description:**  
-Bamboo Flutes are musical instruments that come in various colors. Each flute produces a unique sound when played, adding a musical element to your Minecraft adventures, as well as giving you higher control over your wolves.
+Bamboo Flutes are musical instruments that come in various colors, that let you control your wolves by playing different notes.
 
 **Usage:**  
 - The higher you look, the higher the pitch played
